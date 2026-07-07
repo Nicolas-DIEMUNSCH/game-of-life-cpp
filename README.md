@@ -118,7 +118,7 @@ The project includes unit tests to verify the evolution of the grid after a chos
 ## Team
 
 - Nicolas Diemunsch
-- Pierre Lambert
+- Loïs Bellavance
 
 ## License
 
