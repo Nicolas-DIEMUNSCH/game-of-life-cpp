@@ -1,39 +1,91 @@
-# Game of Life — C++ OOP Simulation
+# 🎮 Conway's Game of Life — C++ Simulation
 
-> An object-oriented implementation of Conway's Game of Life in standard C++, with console and SFML graphical modes.
+C++ project built as part of a POO assignment.
 
-## Overview
+This project implements Conway's Game of Life using a clean object-oriented architecture. The application reads an initial grid from a text file, evolves the simulation generation after generation, and can run both in console mode and in graphical mode with SFML.
 
-This project implements John Conway's Game of Life using an object-oriented approach in C++. It separates the game engine, grid management, cell states, rules, file handling, and graphical rendering into distinct classes.
+---
 
-The program reads an initial grid from a text file, evolves the simulation according to Conway's rules, and can run either in console mode or in a graphical SFML window.
+## 📋 Table of Contents
 
-## Features
+- [Project Overview](#-project-overview)
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Architecture](#-architecture)
+- [Installation](#-installation)
+- [Configuration](#-configuration)
+- [Running the Project](#-running-the-project)
+- [Tests](#-tests)
+- [Team](#-team)
 
-- Conway's Game of Life rules.
-- Object-oriented architecture with polymorphism.
-- Normal and toric grid implementations.
-- Console mode that exports successive generations to output files.
-- SFML graphical mode.
+---
+
+## 🌐 Project Overview
+
+Conway's Game of Life is a cellular automaton where each cell is either alive or dead. Its next state depends on the number of live neighbors around it.
+
+This project was designed to respect object-oriented programming principles as much as possible. The game, the grid, the rules, and the cell states are all handled by dedicated classes, and the graphical interface is separated from the simulation logic.
+
+| Mode | Description |
+|------|-------------|
+| Console | Exports successive generations to output files |
+| Graphical | Displays the simulation in an SFML window |
+
+---
+
+## ✨ Features
+
+### Core simulation
+- Conway's original evolution rules.
+- Object-oriented design with polymorphism.
+- Grid and game logic separated into reusable classes.
+- File input for the initial configuration.
+- Automatic stop when the simulation stabilizes.
+
+### Grid management
+- Normal grid mode.
+- Toric grid mode.
 - Support for obstacle cells.
-- Unit tests for validating grid evolution.
-- Predefined patterns such as glider, cannon, and larger structures.
+- Grid factory to create the correct grid type.
 
-## Tech Stack
+### Input and output
+- Reads the initial state from a text file.
+- Writes successive generations in console mode.
+- Uses predefined pattern files such as glider, cannon, and larger patterns.
+
+### Graphical mode
+- SFML-based interface.
+- Visual rendering of the cell grid.
+- Clean separation between GUI and simulation logic.
+
+### General
+- Unit tests for validation.
+- Standard C++ with STL.
+- Designed to be efficient and extensible.
+
+---
+
+## 🛠 Tech Stack
 
 | Component | Technology |
-|---|---|
+|-----------|------------|
 | Language | C++ |
 | Standard Library | STL |
 | Graphics | SFML |
-| Design | OOP, SOLID principles |
+| Design | OOP, polymorphism, SOLID principles |
 | Testing | Unit tests |
+| Input format | Plain text `.txt` files |
 
-## Project Structure
+---
+
+## 🏗 Architecture
+
+The project is organized around a clear separation of responsibilities:
 
 ```text
 project-root/
 ├── main.cpp
+├── test.cpp
 ├── Game.h / Game.cpp
 ├── Grid.h
 ├── GridNormal.h / GridNormal.cpp
@@ -46,22 +98,61 @@ project-root/
 ├── ConwayRules.h / ConwayRules.cpp
 ├── FileManager.h / FileManager.cpp
 ├── AffichageGraphique.h / AffichageGraphique.cpp
-├── test.cpp
 ├── *.txt
 └── README.md
 ```
 
-## How It Works
+### Main responsibilities
 
-1. The program receives the path to an input file.
-2. The file provides the grid dimensions and the initial state.
-3. The game engine builds the objects needed for the simulation.
-4. Each generation updates the grid according to the selected rules.
-5. The simulation stops when the system stabilizes or when the maximum number of iterations is reached.
+| Module | Role |
+|--------|------|
+| `Game` | Manages the simulation and generations |
+| `Grid` | Defines the grid interface |
+| `GridNormal` / `GridToric` | Concrete grid implementations |
+| `CellState` | Base class for cell states |
+| `CellAlive` / `CellDead` | Alive and dead cell behaviors |
+| `Rules` / `ConwayRules` | Encapsulate evolution rules |
+| `FileManager` | Loads and saves grid states |
+| `AffichageGraphique` | Handles the SFML rendering |
 
-## Input File Format
+---
 
-The input file starts with the grid dimensions, followed by a matrix of booleans:
+## ⚙️ Installation
+
+### Prerequisites
+
+- C++ compiler
+- SFML library
+- CMake or a compatible build tool
+
+### Steps
+
+**1. Clone the repository**
+```bash
+git clone https://github.com/<your-username>/<repo-name>.git
+cd <repo-name>
+```
+
+**2. Build the project**
+```bash
+mkdir build
+cd build
+cmake ..
+cmake --build .
+```
+
+**3. Run the executable**
+```bash
+./game_of_life
+```
+
+---
+
+## 🔧 Configuration
+
+The program expects an input `.txt` file containing the initial grid state.
+
+### Input format
 
 ```text
 5 10
@@ -72,54 +163,46 @@ The input file starts with the grid dimensions, followed by a matrix of booleans
 0 0 0 0 0 0 0 0 0 0
 ```
 
-- `1` = alive cell.
-- `0` = dead cell.
+- First line: grid dimensions.
+- Following lines: cell matrix.
+- `1` means alive.
+- `0` means dead.
 
-## Available Modes
+---
+
+## 🚀 Running the Project
 
 ### Console mode
 
-The program writes the first generations to output files using the expected format.
+Launch the program with the input file path. The simulation writes the next generations into output files inside a dedicated output folder.
 
 ### Graphical mode
 
-The simulation runs in an SFML window and displays the current state of the grid in real time.
+Launch the program in graphical mode to open the SFML window and display the evolving grid.
 
-## Extensions
+---
 
-- Toric grid handling.
-- Obstacle cells.
-- Built-in patterns placed from text files.
-- Unit tests for simulation correctness.
+## 🧪 Tests
 
-## Setup
-
-### Requirements
-
-- C++ compiler
-- SFML
-- CMake or a compiler toolchain of your choice
-
-### Build and run
+Unit tests are provided to verify the evolution of the grid after a chosen number of iterations.
 
 ```bash
-# Example only
-mkdir build
-cd build
-cmake ..
-cmake --build .
-./game_of_life
+./tests
 ```
 
-## Tests
+---
 
-The project includes unit tests to verify the evolution of the grid after a chosen number of iterations.
+## 👥 Team
 
-## Team
+Built by a team of 2.
 
-- Nicolas Diemunsch
-- Loïs Bellavance
+| Name | Role |
+|------|------|
+| To be filled | To be filled |
+| To be filled | To be filled |
 
-## License
+---
 
-Academic project.
+## 📄 License
+
+Academic project — all rights reserved.
